@@ -3,26 +3,26 @@ import { Metadata } from "next";
 import { PlusSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { useAuth } from "@clerk/nextjs";
-import prisma from "@/lib/prisma";
-import { resumeDataInclude } from "@/lib/types";
+// import prisma from "@/lib/prisma";
+// import { resumeDataInclude } from "@/lib/types";
+import { auth } from "@clerk/nextjs/server";
 
 export const metadata: Metadata = {
   title: "Your Resumes",
 };
 
 export default async function page() {
-  const { userId } = useAuth();
+  const { userId } = await auth()
   if (!userId) return null;
-  const resumes = await prisma.resume.findMany({
-    where: {
-      userId,
-    },
-    orderBy: {
-      updatedAt: "desc",
-    },
-    include: resumeDataInclude,
-  });
+  // const resumes = await prisma.resume.findMany({
+  //   where: {
+  //     userId,
+  //   },
+  //   orderBy: {
+  //     updatedAt: "desc",
+  //   },
+  //   include: resumeDataInclude,
+  // });
 
   return (
     <main className="mx-auto w-full max-w-7xl space-y-6 px-3 py-6">

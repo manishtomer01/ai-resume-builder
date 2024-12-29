@@ -61,18 +61,14 @@ export async function generateSummary(input: GenerateSummaryInput) {
 
   const prompt = `${systemMessage}\n\n${userMessage}`;
 
-  try {
-    const aiResponse = await model.generateContent(prompt);
+  const aiResponse = await model.generateContent(prompt);
 
-    if (!aiResponse || !aiResponse.response?.text) {
-      throw new Error("Failed to generate AI response");
-    }
-
-    return aiResponse.response.text();
-  } catch (error: any) {
-    console.error("Gemini API error:", error.message || error);
-    throw new Error("Failed to generate summary.");
+  if (!aiResponse || !aiResponse.response?.text) {
+    throw new Error("Failed to generate AI response");
   }
+
+  return aiResponse.response.text();
+
 }
 
 export async function generateWorkExperience(
@@ -109,28 +105,24 @@ export async function generateWorkExperience(
   `;
   const prompt = `${systemMessage}\n\n${userMessage}`;
 
-  try {
-    const aiResponse = await model.generateContent(prompt);
+  const aiResponse = await model.generateContent(prompt);
 
-    if (!aiResponse || !aiResponse.response?.text) {
-      throw new Error("Failed to generate AI response");
-    }
-
-    return {
-      position: aiResponse.response.text().match(/Job title: (.*)/)?.[1] || "",
-      company: aiResponse.response.text().match(/Company: (.*)/)?.[1] || "",
-      description: (
-        aiResponse.response.text().match(/Description:([\s\S]*)/)?.[1] || ""
-      ).trim(),
-      startDate: aiResponse.response
-        .text()
-        .match(/Start date: (\d{4}-\d{2}-\d{2})/)?.[1],
-      endDate: aiResponse.response
-        .text()
-        .match(/End date: (\d{4}-\d{2}-\d{2})/)?.[1],
-    };
-  } catch (error: any) {
-    console.error("Gemini API error:", error.message || error);
-    throw new Error("Failed to generate summary.");
+  if (!aiResponse || !aiResponse.response?.text) {
+    throw new Error("Failed to generate AI response");
   }
+
+  return {
+    position: aiResponse.response.text().match(/Job title: (.*)/)?.[1] || "",
+    company: aiResponse.response.text().match(/Company: (.*)/)?.[1] || "",
+    description: (
+      aiResponse.response.text().match(/Description:([\s\S]*)/)?.[1] || ""
+    ).trim(),
+    startDate: aiResponse.response
+      .text()
+      .match(/Start date: (\d{4}-\d{2}-\d{2})/)?.[1],
+    endDate: aiResponse.response
+      .text()
+      .match(/End date: (\d{4}-\d{2}-\d{2})/)?.[1],
+  } satisfies WorkExperience;
+
 }
