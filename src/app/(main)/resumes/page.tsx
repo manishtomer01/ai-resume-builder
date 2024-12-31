@@ -31,7 +31,7 @@ export default async function page() {
       },
     }),
   ]);
-  console.log("All resumes are >>", resumes);
+  // console.log("All resumes are >>", resumes);
 
   return (
     <main className="mx-auto w-full max-w-7xl space-y-6 px-3 py-6">
