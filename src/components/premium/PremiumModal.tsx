@@ -1,39 +1,38 @@
 "use client";
 
-// import { env } from "@/env";
-// import { useToast } from "@/hooks/use-toast";
+import { env } from "@/env";
+import { useToast } from "@/hooks/use-toast";
+import usePremiumModal from "@/hooks/usePremiumModal";
 import { Check } from "lucide-react";
-// import { useState } from "react";
+import { useState } from "react";
 import { Button } from "../ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
-import usePremiumModal from "@/hooks/usePremiumModal";
-// import { createCheckoutSession } from "./actions";
+import { createCheckoutSession } from "./actions";
 
 const premiumFeatures = ["AI tools", "Up to 3 resumes"];
 const premiumPlusFeatures = ["Infinite resumes", "Design customizations"];
 
 export default function PremiumModal() {
   const { open, setOpen } = usePremiumModal();
-  console.log("open :>> ", open);
-  //   const { toast } = useToast();
+  const { toast } = useToast();
 
-  //   const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  //   async function handlePremiumClick(priceId: string) {
-  //     try {
-  //       setLoading(true);
-  //       const redirectUrl = await createCheckoutSession(priceId);
-  //       window.location.href = redirectUrl;
-  //     } catch (error) {
-  //       console.error(error);
-  //       toast({
-  //         variant: "destructive",
-  //         description: "Something went wrong. Please try again.",
-  //       });
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   }
+  async function handlePremiumClick(priceId: string) {
+    try {
+      setLoading(true);
+      const redirectUrl = await createCheckoutSession(priceId);
+      window.location.href = redirectUrl;
+    } catch (error) {
+      console.error(error);
+      toast({
+        variant: "destructive",
+        description: "Something went wrong. Please try again.",
+      });
+    } finally {
+      setLoading(false);
+    }
+  }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -55,12 +54,12 @@ export default function PremiumModal() {
                 ))}
               </ul>
               <Button
-              // onClick={() =>
-              //   handlePremiumClick(
-              //     env.NEXT_PUBLIC_STRIPE_PRICE_ID_PRO_MONTHLY,
-              //   )
-              // }
-              // disabled={loading}
+                onClick={() =>
+                  handlePremiumClick(
+                    env.NEXT_PUBLIC_STRIPE_PRICE_ID_PRO_MONTHLY,
+                  )
+                }
+                disabled={loading}
               >
                 Get Premium
               </Button>
@@ -80,12 +79,12 @@ export default function PremiumModal() {
               </ul>
               <Button
                 variant="premium"
-                // onClick={() =>
-                //   handlePremiumClick(
-                //     env.NEXT_PUBLIC_STRIPE_PRICE_ID_PRO_PLUS_MONTHLY,
-                //   )
-                // }
-                // disabled={loading}
+                onClick={() =>
+                  handlePremiumClick(
+                    env.NEXT_PUBLIC_STRIPE_PRICE_ID_PRO_PLUS_MONTHLY,
+                  )
+                }
+                disabled={loading}
               >
                 Get Premium Plus
               </Button>
