@@ -1,19 +1,21 @@
+import { canCreateResume } from "@/lib/permissions";
 import prisma from "@/lib/prisma";
+import { getUserSubscriptionLevel } from "@/lib/subscription";
 import { resumeDataInclude } from "@/lib/types";
 import { auth } from "@clerk/nextjs/server";
 import { Metadata } from "next";
 import CreateResumeButton from "./CreateResumeButton";
 import ResumeItem from "./ResumeItem";
-import { getUserSubscriptionLevel } from "@/lib/subscription";
-import { canCreateResume } from "@/lib/permissions";
 
 export const metadata: Metadata = {
-  title: "Your Resumes",
+  title: "Your resumes",
 };
 
-export default async function page() {
+export default async function Page() {
   const { userId } = await auth();
+
   if (!userId) return null;
+
   const [resumes, totalCount, subscriptionLevel] = await Promise.all([
     prisma.resume.findMany({
       where: {
@@ -31,7 +33,6 @@ export default async function page() {
     }),
     getUserSubscriptionLevel(userId),
   ]);
-  // console.log("All resumes are >>", resumes);
 
   return (
     <main className="mx-auto w-full max-w-7xl space-y-6 px-3 py-6">

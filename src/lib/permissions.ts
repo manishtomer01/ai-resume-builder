@@ -11,6 +11,7 @@ export function canCreateResume(
     };
 
     const maxResumes = maxResumeMap[subscriptionLevel];
+
     return currentResumeCount < maxResumes;
 }
 
