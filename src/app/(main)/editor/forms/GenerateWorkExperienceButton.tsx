@@ -17,8 +17,8 @@ import {
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-// import usePremiumModal from "@/hooks/usePremiumModal";
-// import { canUseAITools } from "@/lib/permissions";
+import usePremiumModal from "@/hooks/usePremiumModal";
+import { canUseAITools } from "@/lib/permissions";
 import {
   GenerateWorkExperienceInput,
   generateWorkExperienceSchema,
@@ -29,7 +29,7 @@ import { WandSparklesIcon } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { generateWorkExperience } from "./gemini-action";
-// import { useSubscriptionLevel } from "../../SubscriptionLevelProvider";
+import { useSubscriptionLevel } from "../../SubscriptionLevelProvider";
 // import { generateWorkExperience } from "./actions";
 
 interface GenerateWorkExperienceButtonProps {
@@ -39,9 +39,9 @@ interface GenerateWorkExperienceButtonProps {
 export default function GenerateWorkExperienceButton({
   onWorkExperienceGenerated,
 }: GenerateWorkExperienceButtonProps) {
-  // const subscriptionLevel = useSubscriptionLevel();
+  const subscriptionLevel = useSubscriptionLevel();
 
-  // const premiumModal = usePremiumModal();
+  const premiumModal = usePremiumModal();
 
   const [showInputDialog, setShowInputDialog] = useState(false);
 
@@ -51,10 +51,10 @@ export default function GenerateWorkExperienceButton({
         variant="outline"
         type="button"
         onClick={() => {
-          // if (!canUseAITools(subscriptionLevel)) {
-          //   premiumModal.setOpen(true);
-          //   return;
-          // }
+          if (!canUseAITools(subscriptionLevel)) {
+            premiumModal.setOpen(true);
+            return;
+          }
           setShowInputDialog(true);
         }}
       >
