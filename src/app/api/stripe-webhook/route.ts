@@ -104,6 +104,6 @@ async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
   await prisma.userSubscription.deleteMany({
     where: {
       stripeCustomerId: subscription.customer as string,
-    },
+    }
   });
 }
